@@ -38,6 +38,23 @@ app.post('/info',async (req, res) => {
     })
 });
 
+app.post('/translate',async (req, res) => {
+    // Extract data from the request body
+    
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+            {"role": "user", 
+            "content": "translate this message "+req.body.message +"to english"
+        }
+        ]
+    });
+
+    res.json({
+        message : completion.choices[0].message
+    })
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
